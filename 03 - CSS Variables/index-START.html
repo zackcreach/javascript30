@@ -21,6 +21,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -45,6 +60,24 @@
   </style>
 
   <script>
+    // grab all inputs captured as a node list (not an array). If we want an array, we need to convert it
+    // Node list is fine in this case because it contains the forEach method, but if it's not listed,
+    // we need to convert it to an array
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      // we create a const suffix using the data- attributes, which are grabbed via .dataset.whateverisafterdash
+      // if that dataset doesn't exist (as in the color selector), do nothing (|| '')
+      const suffix = this.dataset.sizing || '';
+      // documentElement grabs the global style tag and resets the property with this.name
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    // this event listener is looking for the value to change, which only happens when you click and let go of the mouse
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+
+    // this event listener fires any time you move your mouse over the element
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
