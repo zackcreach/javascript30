@@ -79,6 +79,9 @@
       const now = new Date();
 
       const seconds = now.getSeconds();
+      // make a new secondsDegrees const that converts the seconds to a percentage (seconds / 60)
+      // then multiplies by 360 to fit within the rotate transform css suffix (which is deg)
+      // then offset by 90deg as the initial style starts it at 90 (for positioning)
       const secondsDegrees = ((seconds / 60) * 360) + 90;
       secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
@@ -95,6 +98,7 @@
       console.log(hoursDegrees);
     }
 
+    // run the setDate function every second to update the clock
     setInterval(setDate, 1000);
 
   </script>
