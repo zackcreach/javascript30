@@ -18,28 +18,65 @@
     }
 
     // Regular
+    console.log('Hello');
 
-    // Interpolated
+    // Interpolated (either way works!)
+    console.log('Hello I am a %s string!', 'new');
+
+    var coolString = 'new';
+    console.log(`Hello I am a ${coolString} string!`);
 
     // Styled
+    console.log('%c I am some great text', 'background: yellow; color: red;');
 
     // warning!
+    console.warn('OH NOOOOOOO');
 
     // Error :|
+    console.error('Shit!');
 
     // Info
+    console.info('Crocodile eat 3-4 people per year');
 
-    // Testing
+    // Testing (this will only fire if the first argument is actually wrong)
+    const p = document.querySelector('p');
+    console.assert(p.classList.contains('ouch'), 'That is wrong!');
 
-    // clearing
+    // clearing (more for practical jokes than anything)
+    // console.clear();
 
-    // Viewing DOM Elements
+    // Viewing DOM Elements (log just gives you element itself, dir shows all methods that live on that object)
+    console.log(p);
+    console.dir(p);
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.group(`${dog.name}`);
+      // console.groupCollapsed(`${dog.name}`); // defaults to collapsed in console
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.groupEnd(`${dog.name}`);
+    })
 
     // counting
+    console.count('Zack');
+    console.count('Kevin');
+    console.count('Kevin');
+    console.count('Kevin');
+    console.count('Zack');
+    console.count('Zack');
 
     // timing
+    console.time('fetching data');
+    fetch('https://api.github.com/users/zackcreach')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+      })
+
+    console.table(dogs);
 
   </script>
 </body>
