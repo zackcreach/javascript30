@@ -28,11 +28,67 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  // start by trying to parse the string from localStorage, otherwise start with empty array
+  // we pass in the 'items' Key that we set each time we submit
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+
+  function addItem(e) {
+    e.preventDefault();
+    // THIS is referring to the addItems object we defined above, which is then called below.
+    // .value method can be called on any input field
+    const text = (this.querySelector('[name=item]')).value;
+    const item = {
+      text,
+      done: false
+    };
+    items.push(item);
+    console.table(items);
+
+    populateList(items, itemsList);
+    // three api methods: setItem, getItem, removeItem
+    // first argument is the Key which is shown in Application
+    localStorage.setItem('items', JSON.stringify(items));
+
+    // .reset is a cool method that blanks the form (this = form in this case);
+    this.reset();
+  }
+
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, index) => {
+      // the id attribute and the for attribute are exactly the same, and that's how the checkbox knows to link
+      // fun fact on the input: you can add "false" (or anything) to checked attribute but it still checks it
+      return `
+        <li>
+          <input type="checkbox" data-index=${index} id="item${index}" ${plate.done ? 'checked' : ''} />
+          <label for="item${index}">${plate.text}</label>
+        </li>
+      `;
+      // .join is necessary because we're mapping onto the innerHTML, which needs a single string, not an array which is what map returns by default
+    }).join('');
+  }
+
+  function toggleDone(e) {
+    // .matches is a new method
+    // This basically filters out our clicks: it skip any clicks we're listening for unless it's an input
+    if (!e.target.matches('input')) return;
+
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  // we'll reference addItems in the addItem function using THIS.
+  // The trick to THIS it will reference anything before the . operator (in this case, addItems which points to our form)
+  // This is what's called implicit binding of THIS, which is the most common
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+
+  populateList(items, itemsList);
 
 </script>
 
 
 </body>
 </html>
-
