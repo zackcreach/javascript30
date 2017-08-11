@@ -46,6 +46,40 @@
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 
+// then create a function that replaces anything starting with
+// a, the, or a (the i stands for insensitive) with just a blank,
+// and trim() just cuts off any spaces
+function strip(bandName) {
+  return bandName.replace(/^(a |the |an)/i, ``).trim();
+}
+
+// Start by sorting the bands as usual
+const sortedBands = bands.sort((a, b) =>
+  // originally just using a > b
+  // but strip lets us sort WITHOUT modifying the array
+  // if (a > b) {
+
+  // long version
+  // if (strip(a) > strip(b)) {
+  //   return 1;
+  // } else {
+  //   return -1;
+  // }
+
+  // removed the return keyword since
+  // arrow functions don't reqire it if
+  // all you're doing is returning something
+  strip(a) > strip(b) ? 1 : -1
+);
+
+// Last step: select element and make the inner html our new sorted array
+// which returns an array so we want to join it
+// if you don't join(''), you get a string
+document.querySelector('#bands').innerHTML = sortedBands
+  .map(band => `<li>${band}</li>`)
+    .join('')
+
+console.log(sortedBands);
 
 </script>
 
