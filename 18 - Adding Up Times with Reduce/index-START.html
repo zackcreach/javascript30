@@ -182,6 +182,35 @@
     </li>
   </ul>
 <script>
+  // First using map and reduce, but you can also use reduce exclusively
+  const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
+
+  // This would work except that timeNodes is a NodeList, not an array
+  // thereore .map is not in the prototype, only forEach
+  // But we add Array.from() to convert NodeList to Array
+  const seconds = timeNodes
+    .map(node => node.dataset.time)
+    .map(timeCode => {
+      // add .map(parseFloat) to convert the string to numbers
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      return (mins * 60) + secs;
+      console.log(mins, secs);
+    })
+    .reduce((total, vidSeconds) => total + vidSeconds);
+
+    let secondsLeft = seconds;
+    // Math.floor rounds to the lower limit of the result to get an integer
+    const hours = Math.floor(secondsLeft / 3600);
+    // %, or 'mod', results how many are left after
+    // evenly distributed
+    // so this takes the rest of the time chopped off by Math.floor above
+    // and gives us the remainder in seconds
+    secondsLeft = secondsLeft % 3600;
+
+    const mins = Math.floor(secondsLeft / 60);
+    secondsLeft = secondsLeft % 60;
+
+    console.log(hours, mins, secondsLeft);
 </script>
 </body>
 </html>
