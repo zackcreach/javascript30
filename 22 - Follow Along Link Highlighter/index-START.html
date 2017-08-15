@@ -26,8 +26,29 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const triggers = document.querySelectorAll('a');
+    const highlight = document.createElement('span');
+    highlight.classList.add('highlight');
+    document.body.append(highlight);
+
+    function highlightLink() {
+      // getBoundingClientRect gives us the .top, .left, .width, and .height paramaters that we can match below
+      const linkCoords = this.getBoundingClientRect();
+
+      // creating our own coords variable corrects the bug where
+      // when you scroll down, the top, left, width, height stay fixed
+      const coords = {
+        width: linkCoords.width,
+        height: linkCoords.height,
+        top: linkCoords.top + window.scrollY,
+        left: linkCoords.left + window.scrollX,
+      }
+      highlight.style.width = `${coords.width}px`;
+      highlight.style.height = `${coords.height}px`;
+      highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`
+    }
+
+    triggers.forEach(a => a.addEventListener('mouseenter', highlightLink));
   </script>
 </body>
 </html>
-
