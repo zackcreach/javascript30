@@ -54,7 +54,26 @@
   </div>
 
 <script>
+  // grab the UL main element
+  const nav = document.getElementById('main');
+  // grab the height of the hero element prior to Nav
+  const topOfNav = nav.offsetTop;
 
+  function fixNav() {
+    // create an if statement that catches when the topOfNav element is exceeded when scrolled
+    if (window.scrollY >= topOfNav) {
+      // add class to body to target any of the children, rather than just the nav
+      // nav.offsetHeight ensures that if it changes, it will pick it up
+      // sure, it's not in the stylesheet, but it's more sustainable
+      document.body.style.paddingTop = nav.offsetHeight + 'px';
+      document.body.classList.add('fixed-nav');
+    } else {
+      document.body.style.paddingTop = 0;
+      document.body.classList.remove('fixed-nav');
+    }
+  }
+
+  window.addEventListener('scroll', fixNav);
 </script>
 
 </body>

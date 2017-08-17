@@ -36,10 +36,34 @@
     background:coral;
   }
 </style>
-
-<button></button>
+<button>Sample for Once</Button>
 <script>
+  const divs = document.querySelectorAll('div');
 
+  function logText(e) {
+    // stopPropagation says stop bubbling up from the originally clicked element
+    // stopPropagation can be wrapped in an if statement also if we only want to fire on ONE element
+    e.stopPropagation();
+    console.log(this.classList.value);
+    // console.log(this);
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    // once is brand new, it listens for a click and then unbinds itself
+    // basically a quicker way to .removeEventListener()
+    // once: true
+  }));
+
+  // example of once in action with a button:
+  const button = document.querySelector('button');
+
+  button.addEventListener('click', () => {
+    console.log('Click!');
+  }, {once: true})
 </script>
+
+
+
 </body>
 </html>
