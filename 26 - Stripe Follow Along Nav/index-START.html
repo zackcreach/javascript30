@@ -214,6 +214,44 @@
 </style>
 
 <script>
+  const triggers = document.querySelectorAll('.cool > li');
+  const background = document.querySelector('.dropdownBackground');
+  const nav = document.querySelector('.top');
+
+  function handleEnter() {
+    this.classList.add('trigger-enter');
+    // the && is basically functioning as an if statement
+    // if the classlist contains trigger-enter, then start the timeout
+    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
+    background.classList.add('open');
+
+    // we're defining this down here (rather than above) because of multiple lists
+    const dropdown = this.querySelector('.dropdown');
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect();
+
+    // make our own variables from above to capture when dropping down
+    const coords = {
+      height: dropdownCoords.height,
+      width: dropdownCoords.width,
+      // we offset top with navCoords so that it doesn't mess up when scrolling
+      top: dropdownCoords.top - navCoords.top,
+      left: dropdownCoords.left
+    };
+
+    // dynamically add style to dropdown boxes thanks to custom varible coords
+    background.style.setProperty('width', `${coords.width}px`);
+    background.style.setProperty('height', `${coords.height}px`);
+    background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
+  }
+
+  function handleLeave() {
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    background.classList.remove('open');
+  }
+
+  triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
+  triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
 </script>
 
 </body>
